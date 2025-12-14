@@ -1,1 +1,52 @@
 # ⭐ Star 星星走起 动动发财手点点⭐Star
+
+## ⚠️ 注意
+- 首次运行：可能需要设备验证，收到 TG 通知后 30 秒内批准
+- REPO_TOKEN：需要有 Secrets 写入权限才能自动更新
+- Cookie 有效期：每次运行都会更新，保持最新
+
+## Secrets 配置
+| Secret 名称 | 说明 |
+| --- | --- |
+| `GH_USERNAME` | GitHub 用户名 |
+| `GH_PASSWORD` | GitHub 密码 |
+| `GH_SESSION` | Cookie（首次可为空）不用添加 |
+| `TG_BOT_TOKEN` | Telegram Bot Token |
+| `TG_CHAT_ID` | Telegram Chat ID |
+| `GitHub PAT` | GitHub Token（用于自动更新 Secret） |
+
+## 流程图
+```
+开始
+  ↓
+加载已保存的 Cookie（如果有）
+  ↓
+访问 ClawCloud
+  ↓
+已登录？ ─是→ 保活 → 提取新 Cookie → 保存 → 完成
+  ↓否
+点击 GitHub 登录
+  ↓
+Cookie 有效？ ─是→ 直接 OAuth 授权
+  ↓否
+输入用户名密码
+  ↓
+需要设备验证？ ─是→ 发送 TG 通知 → 等待 30 秒
+  ↓
+登录成功
+  ↓
+OAuth 授权
+  ↓
+重定向到 ClawCloud
+  ↓
+保活（访问控制台、应用页面）
+  ↓
+提取新的 Session Cookie
+  ↓
+自动更新 GH_SESSION Secret
+  ↓
+发送 Telegram 通知
+  ↓
+完成 ✅
+
+```
